@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.29503.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MLSApplication", "MLSApplication\MLSApplication.csproj", "{E4655510-F651-4650-8A5F-FB4C1B6A0F80}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomGenerics", "CustomGenerics\CustomGenerics.csproj", "{F4B982C9-C1F8-403A-BC31-43BFDA3497DC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{E4655510-F651-4650-8A5F-FB4C1B6A0F80}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E4655510-F651-4650-8A5F-FB4C1B6A0F80}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E4655510-F651-4650-8A5F-FB4C1B6A0F80}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4B982C9-C1F8-403A-BC31-43BFDA3497DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4B982C9-C1F8-403A-BC31-43BFDA3497DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4B982C9-C1F8-403A-BC31-43BFDA3497DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4B982C9-C1F8-403A-BC31-43BFDA3497DC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
