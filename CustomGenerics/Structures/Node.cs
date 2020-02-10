@@ -15,6 +15,7 @@ namespace CustomGenerics.Structures {
     public class Node <T> {
         //Class parameters
         public Node<T> nextNode { get; set; }
+        public Node<T> previousNode { get; set; }
         public T value { get; set; }
     }
 }
