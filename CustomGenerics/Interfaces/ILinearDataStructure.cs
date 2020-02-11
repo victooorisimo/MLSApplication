@@ -15,6 +15,6 @@ namespace CustomGenerics.Interfaces {
         //Class methods
         protected abstract void Insert(T value);
         protected abstract void Delete();
-        protected abstract T Get();
+        protected abstract T Get(T value);
     }
 }

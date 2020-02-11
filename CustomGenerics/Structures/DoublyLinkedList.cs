@@ -59,17 +59,35 @@ namespace CustomGenerics.Structures {
             return position;
         }
 
+        //public T Remove(T value){
+        //    Node<T> deleteNode = new Node<T>();
+        //    deleteNode = firstNode;
+        //    for (int i = 1; i < Find(value); i++) {
+        //        deleteNode = deleteNode.nextNode;
+        //    }
+        //    (deleteNode.nextNode).previousNode = deleteNode.previousNode;
+        //    (deleteNode.previousNode).nextNode = deleteNode.nextNode;
+        //    return deleteNode.value;
+        //}
+        
 
 
+        //public T Remove() {
+        //    //var value = Get();
+        //    //Delete();
+        //    //return value;
+        //}
 
-        public T Remove() {
-            var value = Get();
-            Delete();
-            return value;
-        }
-
-        protected override T Get() {
-            throw new NotImplementedException();
+        protected override T Get(T value) {
+            Node<T> findNode = new Node<T>();
+            Node<T> newNode = new Node<T>();
+            for (int i = 0; i < Size(); i++){
+                if (value.Equals(findNode.value)){
+                    newNode.value = findNode.value;
+                }
+                findNode = findNode.nextNode;
+            }
+            return newNode.value;
         }
 
         IEnumerator IEnumerable.GetEnumerator() {
@@ -77,10 +95,11 @@ namespace CustomGenerics.Structures {
         }
 
         public IEnumerator<T> GetEnumerator() {
-            var copyList = this;
-            while (copyList.firstNode != null) {
-                yield return copyList.Remove();
-            }
+            //var copyList = this;
+            //while (copyList.firstNode != null) {
+            //    yield return copyList.Remove();
+            //}
+            throw new NotImplementedException();
         }
     }
 }
