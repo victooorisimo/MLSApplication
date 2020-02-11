@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using MLSApplication.Services;
 
 /*
  * @author: Victor Noe Hernández
@@ -13,6 +14,8 @@ namespace MLSApplication.Models {
 
     public class Sportsman {
         //Class parameters
+        public static int codeSportsman = 0;
+        public int sportsmanId { get; set; }
         public String name { get; set; }
         public String lastname { get; set; }
         public String nationality { get; set; }
@@ -23,12 +26,37 @@ namespace MLSApplication.Models {
         public String futbolTeam { get; set; }
         public String dateOfBirth { get; set; }
 
-        public bool saveSportman(){
-            return true;
-        }
+        public bool saveSportman()
+        {
+            try
+            {
+                codeSportsman++;
+                this.sportsmanId = codeSportsman;
+                Storage.Instance.listSportman.Add(this);
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
 
+        }
         public bool deleteSportman(){
             return true;
+        }
+        public bool updateSportman()
+        {
+            try
+            {
+                this.futbolTeam = futbolTeam;
+                this.salary = salary;
+                Storage.Instance.listSportman.Add(this);
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
         }
     }
 }

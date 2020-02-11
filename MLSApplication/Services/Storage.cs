@@ -14,7 +14,6 @@ namespace MLSApplication.Services {
     public class Storage {
         
         private static Storage _instance = null;
-        public List<Sportsman> listSportman = new List<Sportsman>();
         
         public static Storage Instance{
             get {
@@ -23,5 +22,6 @@ namespace MLSApplication.Services {
             }
         }
 
+        public List<Sportsman> listSportman = new List<Sportsman>();
     }
 }
