@@ -98,17 +98,26 @@ public ActionResult Edit(int id)
         {
             try
             {
-                var sportman = new Sportsman
+                Storage.Instance.listSportman.RemoveAll(c => c.sportsmanId == id);
+                var Sportman = new Sportsman
                 {
-                    salary = int.Parse(collection["Salary"]),
-                    futbolTeam = collection["FutbolTeam"]
+                    name = collection["name"],
+                    lastname = collection["lastname"],
+                    nationality = collection["nationality"],
+                    salary = int.Parse(collection["salary"]),
+                    height = int.Parse(collection["height"]),
+                    weight = int.Parse(collection["weight"]),
+                    position = collection["position"],
+                    futbolTeam = collection["futbolTeam"],
+                    dateOfBirth = collection["dateOfbirth"]
                 };
-
-                if (sportman.updateSportman()){
+                if (Sportman.saveSportman())
+                {
                     return RedirectToAction("Index");
                 }
-                else{
-                    return View(sportman);
+                else
+                {
+                    return View(Sportman);
                 }
             }
             catch

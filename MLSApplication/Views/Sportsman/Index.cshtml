@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<MLSApplication.Models.Sportsman>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "SportsMan";
 }
 
 <h2>Index</h2>
@@ -72,7 +72,6 @@
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.sportsmanId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.sportsmanId }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.sportsmanId })
         </td>
     </tr>
