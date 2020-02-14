@@ -6,10 +6,10 @@
 
 <h2>Create</h2>
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Sportsman</h4>
         <hr />
@@ -39,7 +39,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.salary, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.salary, htmlAttributes: new { @class = "control-label col-md-2", @type = "number" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.salary, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.salary, "", new { @class = "text-danger" })
@@ -49,7 +49,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.height, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.height, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.height, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
                 @Html.ValidationMessageFor(model => model.height, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -57,7 +57,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.weight, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.weight, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.weight, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
                 @Html.ValidationMessageFor(model => model.weight, "", new { @class = "text-danger" })
             </div>
         </div>

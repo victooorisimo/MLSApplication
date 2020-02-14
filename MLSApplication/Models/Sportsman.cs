@@ -48,9 +48,6 @@ namespace MLSApplication.Models {
         {
             try
             {
-                this.futbolTeam = futbolTeam;
-                this.salary = salary;
-                Storage.Instance.listSportman.Add(this);
                 return true;
             }
             catch (Exception e)

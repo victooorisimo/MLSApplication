@@ -98,7 +98,8 @@ public ActionResult Edit(int id)
         {
             try
             {
-                Storage.Instance.listSportman.RemoveAll(c => c.sportsmanId == id);
+                //Storage.Instance.listSportman.RemoveAll(c => c.sportsmanId == id);
+
                 var Sportman = new Sportsman
                 {
                     name = collection["name"],
@@ -111,7 +112,8 @@ public ActionResult Edit(int id)
                     futbolTeam = collection["futbolTeam"],
                     dateOfBirth = collection["dateOfbirth"]
                 };
-                if (Sportman.saveSportman())
+                Storage.Instance.listSportman.Insert(Storage.Instance.listSportman.IndexOf(Storage.Instance.listSportman.Where(c => c.sportsmanId == id).FirstOrDefault()), Sportman);
+                if (Sportman.updateSportman())
                 {
                     return RedirectToAction("Index");
                 }
