@@ -55,5 +55,17 @@ namespace MLSApplication.Models {
                 return false;
             }
         }
+        public bool cList()
+        {
+            try
+            {
+                return true;
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
+        }
     }
 }

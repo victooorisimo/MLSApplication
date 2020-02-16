@@ -8,6 +8,12 @@ using MLSApplication.Services;
 
 namespace MLSApplication.Controllers
 {
+    /*
+     * @author: Aylinne Recinos
+     * @version: 1.0.0
+     * @description: controller for the C# list. 
+     */
+
     public class SportsmanController : Controller
     {
         // GET: Sportsman
