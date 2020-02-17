@@ -1,8 +1,6 @@
-﻿using MLSApplication.Models;
-using System;
+﻿using CustomGenerics.Structures;
+using MLSApplication.Models;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 /*
  * @author: Victor Noe Hernández
@@ -23,5 +21,6 @@ namespace MLSApplication.Services {
         }
 
         public List<Sportsman> listSportman = new List<Sportsman>();
+        public DoublyLinkedList<Sportsman> doublylistSportman = new DoublyLinkedList<Sportsman>();
     }
 }
