@@ -9,11 +9,44 @@ using MLSApplication.Services;
 
 namespace MLSApplication.Controllers
 {
-    public class SportsmanController : Controller {
+    /*
+     * @author: Aylinne Recinos
+     * @version: 1.0.0
+     * @description: controller for the C# list. 
+     */
 
+    public class SportsmanController : Controller {
         Stopwatch watch = new Stopwatch();
-        OperationLog newOperation;
-        public bool structureType  = true;
+            OperationLog newOperation;
+            public bool structureType  = true;
+
+        public ActionResult SelectionPage()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult SelectionPage(Sportsman sportsman, string C_List, string DoublyList)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(C_List)){
+                    Storage.Instance.selectionList = true;
+                    return RedirectToAction("Index");
+                }
+                else if (!string.IsNullOrEmpty(DoublyList)){
+                    Storage.Instance.selectionList = false;
+                    return RedirectToAction("Index");
+                }
+                else{
+                    return View(sportsman);
+                }
+            }
+            catch (Exception)
+            {
+                return View();
+            }
+        }
 
         // GET: Sportsman
         public ViewResult Index(string searchString, string sortOrder){
@@ -149,7 +182,7 @@ namespace MLSApplication.Controllers
                     return View(Sportman);
                 }
             }catch {
-                return View();
+                    return RedirectToAction("Index");
             }
 
         }
