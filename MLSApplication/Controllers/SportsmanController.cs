@@ -17,19 +17,15 @@ namespace MLSApplication.Controllers
 
     public class SportsmanController : Controller {
         Stopwatch watch = new Stopwatch();
-            OperationLog newOperation;
-            public bool structureType  = true;
+        OperationLog newOperation;
 
-        public ActionResult SelectionPage()
-        {
+        public ActionResult SelectionPage() {
             return View();
         }
 
         [HttpPost]
-        public ActionResult SelectionPage(Sportsman sportsman, string C_List, string DoublyList)
-        {
-            try
-            {
+        public ActionResult SelectionPage(Sportsman sportsman, string C_List, string DoublyList){
+            try {
                 if (!string.IsNullOrEmpty(C_List)){
                     Storage.Instance.selectionList = true;
                     return RedirectToAction("Index");
@@ -37,13 +33,10 @@ namespace MLSApplication.Controllers
                 else if (!string.IsNullOrEmpty(DoublyList)){
                     Storage.Instance.selectionList = false;
                     return RedirectToAction("Index");
-                }
-                else{
+                }else{
                     return View(sportsman);
                 }
-            }
-            catch (Exception)
-            {
+            }catch (Exception){
                 return View();
             }
         }
@@ -54,6 +47,7 @@ namespace MLSApplication.Controllers
             ViewBag.nameSortParam = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewBag.lastNameSortParam = sortOrder == "Lastname" ? "lastname_desc" : "Lastname";
             var sportsman = Storage.Instance.listSportman;
+            var sportsmanDoubly = Storage.Instance.doublylistSportman;
 
             //if (structureType){
             //    var sportsman = Storage.Instance.listSportman;
@@ -72,37 +66,40 @@ namespace MLSApplication.Controllers
 
 
             switch (sortOrder) {
-                
                 case "name_desc":
-                    if (structureType){
+                    if (Storage.Instance.selectionList){
                         sportsman = Storage.Instance.listSportman.OrderByDescending(X => X.name).ToList();
                     }else{
                         //Doublylinked list
                     }
                 break;
                 case "Lastname":
-                    if (structureType) {
+                    if (Storage.Instance.selectionList) {
                         sportsman = Storage.Instance.listSportman.OrderBy(X => X.lastname).ToList();
                     }else {
                         //Doublylinked list
                     }
                 break;
                 case "lastname_desc":
-                    if (structureType){
+                    if (Storage.Instance.selectionList) {
                         sportsman = Storage.Instance.listSportman.OrderByDescending(X => X.lastname).ToList();
                     } else {
                         //Doublylinked list
                     }
                 break;
                 default:
-                    if (structureType) {
+                    if (Storage.Instance.selectionList) {
                         sportsman = Storage.Instance.listSportman.OrderBy(X => X.name).ToList();
                     }else {
                         //Doublylinked list
                     }
                 break;
             }
-            return View(sportsman.ToList());
+            if (Storage.Instance.selectionList){
+
+            }
+
+            return View(sportsmanDoubly.ToList());
             //return View(sportman);
 
         }
@@ -134,12 +131,11 @@ namespace MLSApplication.Controllers
                     dateOfBirth = collection["dateOfbirth"]
                 };
                 watch.Start();
-                if (Sportman.saveSportman(structureType)) {
+                if (Sportman.saveSportman(Storage.Instance.selectionList)) {
                     watch.Stop();
                     addOperation("New player", "A new player was added", watch.Elapsed.TotalMilliseconds.ToString());
                     return RedirectToAction("Index");
-                }
-                else{
+                }else{
                     return View(Sportman);
                 }
             }
@@ -191,7 +187,7 @@ namespace MLSApplication.Controllers
         public ActionResult Delete(int id){
             try {
                 var Sportman = new Sportsman();
-                if (Sportman.deleteSportman(id, structureType)){
+                if (Sportman.deleteSportman(id, Storage.Instance.selectionList)){
                     return View(Sportman);
                 }else{
                     return View();

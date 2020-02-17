@@ -42,11 +42,17 @@ namespace CustomGenerics.Structures {
         public int getSizeList(){
             Node<T> cantValues = new Node<T>();
             cantValues = firstNode;
-            int cant = 1;
-            while (cantValues.nextNode != firstNode){
-                cant++;
-                cantValues = cantValues.nextNode;
+            int cant;
+            if (!isEmpty()){
+                cant = 1;
+                while (cantValues.nextNode != firstNode){
+                    cant++;
+                    cantValues = cantValues.nextNode;
+                }
+            }else{
+                cant = 0;
             }
+            
             return cant;
         }
 
