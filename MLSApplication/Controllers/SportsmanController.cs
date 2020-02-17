@@ -96,12 +96,10 @@ namespace MLSApplication.Controllers
                 break;
             }
             if (Storage.Instance.selectionList){
-
+                return View(sportsman.ToList());
+            }else {
+                return View(sportsmanDoubly.ToList());
             }
-
-            return View(sportsmanDoubly.ToList());
-            //return View(sportman);
-
         }
 
         // GET: Sportsman/Details/5
