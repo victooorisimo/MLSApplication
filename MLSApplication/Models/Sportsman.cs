@@ -46,14 +46,8 @@ namespace MLSApplication.Models {
         }
         public bool updateSportman()
         {
-            try
-            {
-                return true;
-            }
-            catch (Exception e)
-            {
-                return false;
-            }
+            return true;
         }
+        
     }
 }

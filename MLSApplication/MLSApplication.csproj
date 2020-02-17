@@ -163,16 +163,17 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Sportsman\Index.cshtml" />
     <Content Include="Views\Sportsman\Create.cshtml" />
     <Content Include="Views\Sportsman\Delete.cshtml" />
     <Content Include="Views\Sportsman\Edit.cshtml" />
+    <Content Include="Views\Sportsman\SelectionPage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Home\" />
+    <Folder Include="Views\OptionList\" />
+    <Folder Include="Views\Selection\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

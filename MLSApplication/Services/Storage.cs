@@ -23,5 +23,6 @@ namespace MLSApplication.Services {
         }
 
         public List<Sportsman> listSportman = new List<Sportsman>();
+        public bool selectionList;
     }
 }
