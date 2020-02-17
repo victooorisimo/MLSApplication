@@ -25,7 +25,6 @@ namespace MLSApplication.Models {
         public String position { get; set; }
         public String futbolTeam { get; set; }
         public String dateOfBirth { get; set; }
-
         public bool saveSportman()
         {
             try

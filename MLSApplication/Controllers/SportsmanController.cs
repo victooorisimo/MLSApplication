@@ -131,11 +131,11 @@ namespace MLSApplication.Controllers
         public ActionResult Edit(int id, FormCollection collection)
         {
             try
-            {
+            {   
                 //Storage.Instance.listSportman.RemoveAll(c => c.sportsmanId == id);
 
                 var Sportman = new Sportsman
-                {
+                    {
                     name = collection["name"],
                     lastname = collection["lastname"],
                     nationality = collection["nationality"],
@@ -146,7 +146,12 @@ namespace MLSApplication.Controllers
                     futbolTeam = collection["futbolTeam"],
                     dateOfBirth = collection["dateOfbirth"]
                 };
-                Storage.Instance.listSportman.Insert(Storage.Instance.listSportman.IndexOf(Storage.Instance.listSportman.Where(c => c.sportsmanId == id).FirstOrDefault()), Sportman);
+
+                var sportman = Storage.Instance.listSportman.Where(c => c.sportsmanId == id).FirstOrDefault();
+                var index = Storage.Instance.listSportman.IndexOf(sportman);
+                Storage.Instance.listSportman[index] = Sportman;
+
+                //Storage.Instance.listSportman.Index(Storage.Instance.listSportman.IndexOf(Storage.Instance.listSportman.Where(c => c.sportsmanId == id).FirstOrDefault()), Sportman);
 
                     return RedirectToAction("Index");
             }
