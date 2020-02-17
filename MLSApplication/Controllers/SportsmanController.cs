@@ -16,6 +16,34 @@ namespace MLSApplication.Controllers
 
     public class SportsmanController : Controller
     {
+        public ActionResult SelectionPage()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult SelectionPage(Sportsman sportsman, string C_List, string DoublyList)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(C_List)){
+                    Storage.Instance.selectionList = true;
+                    return RedirectToAction("Index");
+                }
+                else if (!string.IsNullOrEmpty(DoublyList)){
+                    Storage.Instance.selectionList = false;
+                    return RedirectToAction("Index");
+                }
+                else{
+                    return View(sportsman);
+                }
+            }
+            catch (Exception)
+            {
+                return View();
+            }
+        }
+
         // GET: Sportsman
         public ActionResult Index(string sortOrder)
         {
@@ -85,7 +113,7 @@ namespace MLSApplication.Controllers
 
 
 // GET: Sportsman/Edit/5
-public ActionResult Edit(int id)
+        public ActionResult Edit(int id)
         {
             try
             {
@@ -119,14 +147,8 @@ public ActionResult Edit(int id)
                     dateOfBirth = collection["dateOfbirth"]
                 };
                 Storage.Instance.listSportman.Insert(Storage.Instance.listSportman.IndexOf(Storage.Instance.listSportman.Where(c => c.sportsmanId == id).FirstOrDefault()), Sportman);
-                if (Sportman.updateSportman())
-                {
+
                     return RedirectToAction("Index");
-                }
-                else
-                {
-                    return View(Sportman);
-                }
             }
             catch
             {
