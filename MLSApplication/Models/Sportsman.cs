@@ -47,9 +47,10 @@ namespace MLSApplication.Models {
         }
         public bool deleteSportman(int id, bool structureType){
             if (structureType){
-                Storage.Instance.listSportman.Where(c => c.sportsmanId == id).FirstOrDefault();
+                //Storage.Instance.listSportman.Where(c => c.sportsmanId == id).FirstOrDefault();
                 return true;
             }else{
+                
                 return false;
             }
         }

@@ -184,12 +184,23 @@ namespace MLSApplication.Controllers
         // GET: Sportsman/Delete/5
         public ActionResult Delete(int id){
             try {
-                var Sportman = new Sportsman();
-                if (Sportman.deleteSportman(id, Storage.Instance.selectionList)){
-                    return View(Sportman);
+                if (Storage.Instance.selectionList){
+                    var sportman = new Sportsman();
+                    if (sportman.deleteSportman(id, Storage.Instance.selectionList)){
+                        return View(sportman);
+                    }else{
+                        return View();
+                    }
                 }else{
-                    return View();
-                } 
+                    var sportsman = new Sportsman();
+                    while (id != sportsman.sportsmanId){
+                        sportsman = Storage.Instance.doublylistSportman.getObject();
+                    }
+                    Storage.Instance.doublylistSportman.popInList(sportsman);
+                    return View(sportsman);
+                }
+                
+                 
             }catch {
                 return View();
             }
@@ -200,14 +211,18 @@ namespace MLSApplication.Controllers
         public ActionResult Delete(int id, FormCollection collection) {
             var Sportsman = new Sportsman();
             try {
-                if (Sportsman == null)
-                    return View("NotFound");
-                Storage.Instance.listSportman.RemoveAll(c => c.sportsmanId == id);
-                if (Sportsman.updateSportman()){
+                if (Storage.Instance.selectionList) {
+                    if (Sportsman == null)
+                        return View("NotFound");
+                    Storage.Instance.listSportman.RemoveAll(c => c.sportsmanId == id);
+                    if (Sportsman.updateSportman()) {
+                        return RedirectToAction("Index");
+                    }
+                    else {
+                        return View(Sportsman);
+                    }
+                }else {
                     return RedirectToAction("Index");
-                }
-                else{
-                    return View(Sportsman);
                 }
             }catch{
                 return View(Sportsman);
