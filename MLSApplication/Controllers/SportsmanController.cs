@@ -49,22 +49,6 @@ namespace MLSApplication.Controllers
             var sportsman = Storage.Instance.listSportman;
             var sportsmanDoubly = Storage.Instance.doublylistSportman;
 
-            //if (structureType){
-            //    var sportsman = Storage.Instance.listSportman;
-            //}else{
-            //    var sportsman = Storage.Instance.doublylistSportman;
-            //}
-            
-
-            //if (!String.IsNullOrEmpty(searchString)) {
-            //    sportsman = Storage.Instance.listSportman.Where(s => s.name.Contains(searchString)).ToList(); 
-            //}
-
-            //var sportman = new DoublyLinkedList<Sportsman>();
-            //sportman.pushInList(new Sportsman { name = "Victor", lastname = "Hernández"});
-            //sportman.pushInList(new Sportsman { name = "Aylinne", lastname = "Recinos" });
-
-
             switch (sortOrder) {
                 case "name_desc":
                     if (Storage.Instance.selectionList){
@@ -174,18 +158,19 @@ namespace MLSApplication.Controllers
 
         // GET: Sportsman/Delete/5
         public ActionResult Delete(int id){
+            var sportman = new Sportsman();
             try {
                 if (Storage.Instance.selectionList){
-                    var sportman = new Sportsman();
                     if (sportman.deleteSportman(id, Storage.Instance.selectionList)){
-                        return View(sportman);
+                        return View(Storage.Instance.listSportman.Where(c => c.sportsmanId == id).FirstOrDefault());
                     }else{
                         return View();
                     }
                 }else{
                     var sportsman = new Sportsman();
+                    DoublyLinkedList<Sportsman> sportmansCopy = Storage.Instance.doublylistSportman;
                     while (id != sportsman.sportsmanId){
-                        sportsman = Storage.Instance.doublylistSportman.getObject();
+                        sportsman = sportmansCopy.getObject();
                     }
                     Storage.Instance.doublylistSportman.popInList(sportsman);
                     return View(sportsman);
@@ -193,26 +178,26 @@ namespace MLSApplication.Controllers
                 
                  
             }catch {
-                return View();
+                return View(sportman);
             }
         }
 
         // POST: Sportsman/Delete/5
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection) {
-            var Sportsman = new Sportsman();
+            var sportsman = new Sportsman();
             try {
                 if (Storage.Instance.selectionList) {
-                    if (Sportsman == null)
+                    if (sportsman == null) {
                         return View("NotFound");
+                    }
                     Storage.Instance.listSportman.RemoveAll(c => c.sportsmanId == id);
-                        return RedirectToAction("Index");
-
+                    return RedirectToAction("Index");
                 }else {
                     return RedirectToAction("Index");
                 }
             }catch{
-                return View(Sportsman);
+                return View(sportsman);
             }
         }
 

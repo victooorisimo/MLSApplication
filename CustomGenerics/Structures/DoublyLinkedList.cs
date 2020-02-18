@@ -8,6 +8,7 @@ namespace CustomGenerics.Structures {
 
         private Node<T> firstNode;
         private Node<T> lastNode;
+        static int iterations = 0;
 
         //Is empty method.
         public bool isEmpty(){
@@ -61,7 +62,8 @@ namespace CustomGenerics.Structures {
             Node<T> findNode = new Node<T>();
             findNode = firstNode;
             int position = 0;
-            for (int i = 0; i < getSizeList(); i++){
+            int cant = getSizeList();
+            for (int i = 0; i < cant; i++){
                 if (value.Equals(findNode.value)){
                     position = i;
                 }
@@ -79,7 +81,7 @@ namespace CustomGenerics.Structures {
         protected override void Delete(int value){
             Node<T> deleteNode = new Node<T>();
             deleteNode = firstNode;
-            for (int i = 1; i < value; i++){
+            for (int i = 0; i < value; i++){
                 deleteNode = deleteNode.nextNode;
             }
             (deleteNode.nextNode).previousNode = deleteNode.previousNode;
@@ -87,24 +89,23 @@ namespace CustomGenerics.Structures {
             }
 
         public T getObject(){
-            return Get();
+            var value =  Get();
+            RemoveNode();
+            return value;
         }
 
         //Get objetct of list
         protected override T Get() {
-            Node<T> currentLink = firstNode;
-            currentLink = firstNode;
-            int iterations = getSizeList();
-            for (int i = 0; i < iterations; i++) {
-                if (i == 0){
-                    return currentLink.value;
-                }else {
-                    currentLink = currentLink.nextNode;
-                    return currentLink.value;
-                }
+            return firstNode.value;
+        }
+
+        public void RemoveNode(){
+            if (iterations < getSizeList()){
+                firstNode = firstNode.nextNode;
+                iterations++;
+            }else {
+                iterations = 0;
             }
-            return currentLink.value;
-            
         }
 
         //Inumerable Get enumerator

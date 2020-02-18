@@ -21,11 +21,8 @@ namespace MLSApplication.Models {
         public String lastname { get; set; }
         public String nationality { get; set; }
         public double salary { get; set; }
-        public double height { get; set; }
-        public double weight { get; set; }
         public String position { get; set; }
         public String futbolTeam { get; set; }
-        public String dateOfBirth { get; set; }
 
         public bool saveSportman(bool structureType){
             try {
@@ -45,14 +42,12 @@ namespace MLSApplication.Models {
             }
 
         }
+
         public bool deleteSportman(int id, bool structureType){
-            if (structureType)
-            {
+            if (structureType){
                 Storage.Instance.listSportman.Where(c => c.sportsmanId == id).FirstOrDefault();
                 return true;
-            }
-            else
-            {
+            }else {
                 return false;
             }
         }
