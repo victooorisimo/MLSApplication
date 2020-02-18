@@ -2,56 +2,67 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CustomGenerics.Structures {
-    class DoublyLinkedList<T> : ILinearDataStructure<T>, IEnumerable<T> {
+    public class DoublyLinkedList<T> : ILinearDataStructure<T>, IEnumerable<T> {
 
         private Node<T> firstNode;
         private Node<T> lastNode;
 
-        public int Size(){
+        //Is empty method.
+        public bool isEmpty(){
+            return firstNode == null;
+        }
+
+        //Push in list
+        public void pushInList(T value){
+            Insert(value);
+        }
+
+        //Insert method.
+        protected override void Insert(T value){
+            Node<T> newObject = new Node<T>();
+            newObject.value = value;
+            if (isEmpty()){
+                lastNode = newObject;
+                firstNode = newObject;
+                lastNode.nextNode = firstNode;
+                firstNode.previousNode = lastNode;
+            }else{
+                lastNode.nextNode = newObject;
+                newObject.previousNode = lastNode;
+                lastNode = newObject;
+                lastNode.nextNode = firstNode;
+                firstNode.previousNode = lastNode;
+            }
+
+        }
+
+        //Get list size
+        public int getSizeList(){
             Node<T> cantValues = new Node<T>();
             cantValues = firstNode;
-            int cant = 1;
-            while (cantValues.nextNode != firstNode){
-                cant++;
-                cantValues = cantValues.nextNode;
+            int cant;
+            if (!isEmpty()){
+                cant = 1;
+                while (cantValues.nextNode != firstNode){
+                    cant++;
+                    cantValues = cantValues.nextNode;
+                }
+            }else{
+                cant = 0;
             }
+            
             return cant;
         }
 
-        protected override void Insert(T value) {
-            Node<T> newValue = new Node<T>();
-            newValue.value = value;
-            if (firstNode == null){
-                firstNode = newValue;
-                lastNode = newValue;
-                firstNode.previousNode = lastNode;
-                lastNode.nextNode = firstNode;
-
-            }else{
-                lastNode.nextNode = newValue;
-                newValue.previousNode = lastNode;
-                lastNode = newValue;
-                lastNode.nextNode = firstNode;
-                firstNode.previousNode = lastNode;
-            }
-        }
-
-        protected override void Delete()
-        {
-            throw new NotImplementedException();
-        }
-
-        public int Find(T value){
+        //Find object in list
+        public int findObjectList(T value){
             Node<T> findNode = new Node<T>();
             findNode = firstNode;
             int position = 0;
-            for (int i = 0; i < Size(); i++) {
-                if (value.Equals(findNode.value)) {
+            for (int i = 0; i < getSizeList(); i++){
+                if (value.Equals(findNode.value)){
                     position = i;
                 }
                 findNode = findNode.nextNode;
@@ -59,47 +70,54 @@ namespace CustomGenerics.Structures {
             return position;
         }
 
-        //public T Remove(T value){
-        //    Node<T> deleteNode = new Node<T>();
-        //    deleteNode = firstNode;
-        //    for (int i = 1; i < Find(value); i++) {
-        //        deleteNode = deleteNode.nextNode;
-        //    }
-        //    (deleteNode.nextNode).previousNode = deleteNode.previousNode;
-        //    (deleteNode.previousNode).nextNode = deleteNode.nextNode;
-        //    return deleteNode.value;
-        //}
-        
-
-
-        //public T Remove() {
-        //    //var value = Get();
-        //    //Delete();
-        //    //return value;
-        //}
-
-        protected override T Get(T value) {
-            Node<T> findNode = new Node<T>();
-            Node<T> newNode = new Node<T>();
-            for (int i = 0; i < Size(); i++){
-                if (value.Equals(findNode.value)){
-                    newNode.value = findNode.value;
-                }
-                findNode = findNode.nextNode;
-            }
-            return newNode.value;
+        //Pop in list
+        public void popInList(T value){
+            Delete(findObjectList(value));
         }
 
-        IEnumerator IEnumerable.GetEnumerator() {
+        //Delete object in list
+        protected override void Delete(int value){
+            Node<T> deleteNode = new Node<T>();
+            deleteNode = firstNode;
+            for (int i = 1; i < value; i++){
+                deleteNode = deleteNode.nextNode;
+            }
+            (deleteNode.nextNode).previousNode = deleteNode.previousNode;
+            (deleteNode.previousNode).nextNode = deleteNode.nextNode;
+            }
+
+        public void getObject(){
+            Get();
+        }
+
+        //Get objetct of list
+        protected override T Get(){
+            Node<T> currentLink = firstNode;
+            currentLink = firstNode;
+            int iterations = getSizeList();
+            for (int i = 0; i < iterations; i++){
+                return currentLink.value;
+                currentLink = currentLink.nextNode;
+            }
+            return currentLink.value;
+        }
+
+        //Inumerable Get enumerator
+        IEnumerator IEnumerable.GetEnumerator(){
             return GetEnumerator();
         }
 
+        //GetEnumerator
         public IEnumerator<T> GetEnumerator() {
-            //var copyList = this;
-            //while (copyList.firstNode != null) {
-            //    yield return copyList.Remove();
-            //}
-            throw new NotImplementedException();
+            Node<T> currentLink = firstNode;
+            int iteration = 0;
+            int sizeList = getSizeList();
+            while (iteration < sizeList) {
+                yield return currentLink.value;
+                currentLink = currentLink.nextNode;
+                iteration++;
+            }
         }
+
     }
 }

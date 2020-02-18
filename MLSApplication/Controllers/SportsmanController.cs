@@ -1,8 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
+using CustomGenerics.Structures;
 using MLSApplication.Models;
 using MLSApplication.Services;
 
@@ -14,18 +15,17 @@ namespace MLSApplication.Controllers
      * @description: controller for the C# list. 
      */
 
-    public class SportsmanController : Controller
-    {
-        public ActionResult SelectionPage()
-        {
+    public class SportsmanController : Controller {
+        Stopwatch watch = new Stopwatch();
+        OperationLog newOperation;
+
+        public ActionResult SelectionPage() {
             return View();
         }
 
         [HttpPost]
-        public ActionResult SelectionPage(Sportsman sportsman, string C_List, string DoublyList)
-        {
-            try
-            {
+        public ActionResult SelectionPage(Sportsman sportsman, string C_List, string DoublyList){
+            try {
                 if (!string.IsNullOrEmpty(C_List)){
                     Storage.Instance.selectionList = true;
                     return RedirectToAction("Index");
@@ -33,61 +33,93 @@ namespace MLSApplication.Controllers
                 else if (!string.IsNullOrEmpty(DoublyList)){
                     Storage.Instance.selectionList = false;
                     return RedirectToAction("Index");
-                }
-                else{
+                }else{
                     return View(sportsman);
                 }
-            }
-            catch (Exception)
-            {
+            }catch (Exception){
                 return View();
             }
         }
 
         // GET: Sportsman
-        public ActionResult Index(string sortOrder)
-        {
+        public ViewResult Index(string searchString, string sortOrder){
+
             ViewBag.nameSortParam = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewBag.lastNameSortParam = sortOrder == "Lastname" ? "lastname_desc" : "Lastname";
             var sportsman = Storage.Instance.listSportman;
-            switch (sortOrder)
-            {
+            var sportsmanDoubly = Storage.Instance.doublylistSportman;
+
+            //if (structureType){
+            //    var sportsman = Storage.Instance.listSportman;
+            //}else{
+            //    var sportsman = Storage.Instance.doublylistSportman;
+            //}
+            
+
+            //if (!String.IsNullOrEmpty(searchString)) {
+            //    sportsman = Storage.Instance.listSportman.Where(s => s.name.Contains(searchString)).ToList(); 
+            //}
+
+            //var sportman = new DoublyLinkedList<Sportsman>();
+            //sportman.pushInList(new Sportsman { name = "Victor", lastname = "Hernández"});
+            //sportman.pushInList(new Sportsman { name = "Aylinne", lastname = "Recinos" });
+
+
+            switch (sortOrder) {
                 case "name_desc":
-                    sportsman = Storage.Instance.listSportman.OrderByDescending(X => X.name).ToList();
-                    break;
+                    if (Storage.Instance.selectionList){
+                        sportsman = Storage.Instance.listSportman.OrderByDescending(X => X.name).ToList();
+                    }else{
+                        //Doublylinked list
+                    }
+                break;
                 case "Lastname":
-                    sportsman = Storage.Instance.listSportman.OrderBy(X => X.lastname).ToList();
-                    break;
+                    if (Storage.Instance.selectionList) {
+                        sportsman = Storage.Instance.listSportman.OrderBy(X => X.lastname).ToList();
+                    }else {
+                        //Doublylinked list
+                    }
+                break;
                 case "lastname_desc":
-                    sportsman = Storage.Instance.listSportman.OrderByDescending(X => X.lastname).ToList();
-                    break;
+                    if (Storage.Instance.selectionList) {
+                        sportsman = Storage.Instance.listSportman.OrderByDescending(X => X.lastname).ToList();
+                    } else {
+                        //Doublylinked list
+                    }
+                break;
                 default:
-                    sportsman = Storage.Instance.listSportman.OrderBy(X => X.name).ToList();
-                    break;
+                    if (Storage.Instance.selectionList) {
+                        sportsman = Storage.Instance.listSportman.OrderBy(X => X.name).ToList();
+                    }else {
+                        //Doublylinked list
+                    }
+                break;
             }
-            return View(sportsman.ToList());
+            if (Storage.Instance.selectionList){
+
+            }
+
+            return View(sportsmanDoubly.ToList());
+            //return View(sportman);
+
         }
 
         // GET: Sportsman/Details/5
-        public ActionResult Details(int id)
-        {
+        public ActionResult Details(int id){
             return View();
         }
 
         // GET: Sportsman/Create
-        public ActionResult Create()
-        {
+        public ActionResult Create() {
             return View();
         }
 
         // POST: Sportsman/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
-        {
-            try
-            {
-                var Sportman = new Sportsman
-                {
+        public ActionResult Create(FormCollection collection) {
+            
+            try {
+                var Sportman = new Sportsman {
                     name = collection["name"],
                     lastname = collection["lastname"],
                     nationality = collection["nationality"],
@@ -98,44 +130,36 @@ namespace MLSApplication.Controllers
                     futbolTeam = collection["futbolTeam"],
                     dateOfBirth = collection["dateOfbirth"]
                 };
-                if (Sportman.saveSportman()){
+                watch.Start();
+                if (Sportman.saveSportman(Storage.Instance.selectionList)) {
+                    watch.Stop();
+                    addOperation("New player", "A new player was added", watch.Elapsed.TotalMilliseconds.ToString());
                     return RedirectToAction("Index");
-                }
-                else{
+                }else{
                     return View(Sportman);
                 }
             }
-            catch (Exception)
-            {
+            catch (Exception){
                 return View();
             } 
         }
 
-
-// GET: Sportsman/Edit/5
-        public ActionResult Edit(int id)
-        {
-            try
-            {
+        // GET: Sportsman/Edit/5
+        public ActionResult Edit(int id){
+            try {
                 var sportman = Storage.Instance.listSportman.Where(c => c.sportsmanId == id).FirstOrDefault();
                 return View(sportman);
-            }
-            catch
-            {
+            }catch {
                 return View();
             }
         }
 
         // POST: Sportsman/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {   
+        public ActionResult Edit(int id, FormCollection collection){
+            try{
                 //Storage.Instance.listSportman.RemoveAll(c => c.sportsmanId == id);
-
-                var Sportman = new Sportsman
-                    {
+                var Sportman = new Sportsman {
                     name = collection["name"],
                     lastname = collection["lastname"],
                     nationality = collection["nationality"],
@@ -147,45 +171,39 @@ namespace MLSApplication.Controllers
                     dateOfBirth = collection["dateOfbirth"]
                 };
 
-                var sportman = Storage.Instance.listSportman.Where(c => c.sportsmanId == id).FirstOrDefault();
-                var index = Storage.Instance.listSportman.IndexOf(sportman);
-                Storage.Instance.listSportman[index] = Sportman;
-
-                //Storage.Instance.listSportman.Index(Storage.Instance.listSportman.IndexOf(Storage.Instance.listSportman.Where(c => c.sportsmanId == id).FirstOrDefault()), Sportman);
-
+                Storage.Instance.listSportman.Insert(Storage.Instance.listSportman.IndexOf(Storage.Instance.listSportman.Where(c => c.sportsmanId == id).FirstOrDefault()), Sportman);
+                if (Sportman.updateSportman()) {
                     return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
+                }else{
+                    return View(Sportman);
+                }
+            }catch {
+                    return RedirectToAction("Index");
             }
 
         }
 
         // GET: Sportsman/Delete/5
-        public ActionResult Delete(int id)
-        {
-            try
-            {
-                var Sportman = Storage.Instance.listSportman.Where(c => c.sportsmanId == id).FirstOrDefault();
-                return View(Sportman);
-            }
-            catch
-            {
+        public ActionResult Delete(int id){
+            try {
+                var Sportman = new Sportsman();
+                if (Sportman.deleteSportman(id, Storage.Instance.selectionList)){
+                    return View(Sportman);
+                }else{
+                    return View();
+                } 
+            }catch {
                 return View();
             }
         }
 
         // POST: Sportsman/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
+        public ActionResult Delete(int id, FormCollection collection) {
             var Sportsman = new Sportsman();
-            try
-            {
+            try {
                 if (Sportsman == null)
                     return View("NotFound");
-
                 Storage.Instance.listSportman.RemoveAll(c => c.sportsmanId == id);
                 if (Sportsman.updateSportman()){
                     return RedirectToAction("Index");
@@ -193,11 +211,17 @@ namespace MLSApplication.Controllers
                 else{
                     return View(Sportsman);
                 }
-            }
-            catch
-            {
+            }catch{
                 return View(Sportsman);
             }
+        }
+
+        public void addOperation(string title, string description, string time) {
+            StreamWriter streamWriter = new StreamWriter(AppDomain.CurrentDomain.BaseDirectory + "/Logs/Log-"
+            + DateTime.Now.Day+".txt");
+            newOperation = new OperationLog(title, description, (time + " ms"));
+            streamWriter.WriteLine(newOperation.PrintOperation());
+            streamWriter.Close();
         }
     }
 }

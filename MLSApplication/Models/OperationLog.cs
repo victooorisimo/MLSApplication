@@ -13,14 +13,21 @@ namespace MLSApplication.Models {
 
     public class OperationLog {
 
-        string titleOperation { get; set; }
-        string descriptionOperation { get; set; }
-        DateTime datetimeOperation { get; set; }
+        public string titleOperation { get; set; }
+        public string descriptionOperation { get; set; }
+        public string datetimeOperation { get; set; }
 
-        OperationLog(string title, string description, DateTime datetimeO){
+        public OperationLog() { }
+
+        public OperationLog(string title, string description, string datetimeO){
             this.titleOperation = title;
             this.descriptionOperation = description;
             this.datetimeOperation = datetimeO;
+        }
+
+        public String PrintOperation() {
+            return "Title: " + this.titleOperation + " Description: " 
+                + this.descriptionOperation + " Time: " + this.datetimeOperation;
         }
     }
 }
