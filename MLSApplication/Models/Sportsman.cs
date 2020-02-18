@@ -15,6 +15,7 @@ namespace MLSApplication.Models {
     public class Sportsman {
         //Class parameters
         public static int codeSportsman = 0;
+
         public int sportsmanId { get; set; }
         public String name { get; set; }
         public String lastname { get; set; }
@@ -25,28 +26,37 @@ namespace MLSApplication.Models {
         public String position { get; set; }
         public String futbolTeam { get; set; }
         public String dateOfBirth { get; set; }
-        public bool saveSportman()
-        {
-            try
-            {
+
+        public bool saveSportman(bool structureType){
+            try {
+                
                 codeSportsman++;
                 this.sportsmanId = codeSportsman;
-                Storage.Instance.listSportman.Add(this);
+
+                if (structureType){
+                    Storage.Instance.listSportman.Add(this);
+                }else {
+                    Storage.Instance.doublylistSportman.pushInList(this);
+                }
+                
                 return true;
-            }
-            catch (Exception e)
-            {
+            }catch (Exception e) {
                 return false;
             }
 
         }
-        public bool deleteSportman(){
-            return true;
+        public bool deleteSportman(int id, bool structureType){
+            if (structureType)
+            {
+                Storage.Instance.listSportman.Where(c => c.sportsmanId == id).FirstOrDefault();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
-        public bool updateSportman()
-        {
-            return true;
-        }
+
         
     }
 }

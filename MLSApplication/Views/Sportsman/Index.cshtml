@@ -25,25 +25,13 @@
             @Html.ActionLink("Last name", "Index", new { sortOrder = ViewBag.LastNameSortParam })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.nationality)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.salary)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.height)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.weight)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.position)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.futbolTeam)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.dateOfBirth)
         </th>
         <th></th>
     </tr>
@@ -58,25 +46,13 @@
                 @Html.DisplayFor(modelItem => item.lastname)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.nationality)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.salary)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.height)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.weight)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.position)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.futbolTeam)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.dateOfBirth)
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.sportsmanId }) |

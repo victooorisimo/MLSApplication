@@ -11,8 +11,8 @@ namespace MLSApplication.Controllers
 {
     /*
      * @author: Aylinne Recinos
-     * @version: 1.0.0
-     * @description: controller for the C# list. 
+     * @version: 1.0.1
+     * @description: controller for the C# list and Doubly Linked List. 
      */
 
     public class SportsmanController : Controller {
@@ -96,12 +96,10 @@ namespace MLSApplication.Controllers
                 break;
             }
             if (Storage.Instance.selectionList){
-
+                return View(sportsman.ToList());
+            }else {
+                return View(sportsmanDoubly.ToList());
             }
-
-            return View(sportsmanDoubly.ToList());
-            //return View(sportman);
-
         }
 
         // GET: Sportsman/Details/5
@@ -122,13 +120,9 @@ namespace MLSApplication.Controllers
                 var Sportman = new Sportsman {
                     name = collection["name"],
                     lastname = collection["lastname"],
-                    nationality = collection["nationality"],
                     salary = int.Parse(collection["salary"]),
-                    height = int.Parse(collection["height"]),
-                    weight = int.Parse(collection["weight"]),
                     position = collection["position"],
                     futbolTeam = collection["futbolTeam"],
-                    dateOfBirth = collection["dateOfbirth"]
                 };
                 watch.Start();
                 if (Sportman.saveSportman(Storage.Instance.selectionList)) {
@@ -162,21 +156,16 @@ namespace MLSApplication.Controllers
                 var Sportman = new Sportsman {
                     name = collection["name"],
                     lastname = collection["lastname"],
-                    nationality = collection["nationality"],
                     salary = int.Parse(collection["salary"]),
-                    height = int.Parse(collection["height"]),
-                    weight = int.Parse(collection["weight"]),
                     position = collection["position"],
                     futbolTeam = collection["futbolTeam"],
-                    dateOfBirth = collection["dateOfbirth"]
                 };
 
-                Storage.Instance.listSportman.Insert(Storage.Instance.listSportman.IndexOf(Storage.Instance.listSportman.Where(c => c.sportsmanId == id).FirstOrDefault()), Sportman);
-                if (Sportman.updateSportman()) {
+                var sportman = Storage.Instance.listSportman.Where(c => c.sportsmanId == id).FirstOrDefault();
+                var index = Storage.Instance.listSportman.IndexOf(sportman);
+                Storage.Instance.listSportman[index] = Sportman;
                     return RedirectToAction("Index");
-                }else{
-                    return View(Sportman);
-                }
+                
             }catch {
                     return RedirectToAction("Index");
             }
@@ -186,12 +175,23 @@ namespace MLSApplication.Controllers
         // GET: Sportsman/Delete/5
         public ActionResult Delete(int id){
             try {
-                var Sportman = new Sportsman();
-                if (Sportman.deleteSportman(id, Storage.Instance.selectionList)){
-                    return View(Sportman);
+                if (Storage.Instance.selectionList){
+                    var sportman = new Sportsman();
+                    if (sportman.deleteSportman(id, Storage.Instance.selectionList)){
+                        return View(sportman);
+                    }else{
+                        return View();
+                    }
                 }else{
-                    return View();
-                } 
+                    var sportsman = new Sportsman();
+                    while (id != sportsman.sportsmanId){
+                        sportsman = Storage.Instance.doublylistSportman.getObject();
+                    }
+                    Storage.Instance.doublylistSportman.popInList(sportsman);
+                    return View(sportsman);
+                }
+                
+                 
             }catch {
                 return View();
             }
@@ -202,14 +202,14 @@ namespace MLSApplication.Controllers
         public ActionResult Delete(int id, FormCollection collection) {
             var Sportsman = new Sportsman();
             try {
-                if (Sportsman == null)
-                    return View("NotFound");
-                Storage.Instance.listSportman.RemoveAll(c => c.sportsmanId == id);
-                if (Sportsman.updateSportman()){
+                if (Storage.Instance.selectionList) {
+                    if (Sportsman == null)
+                        return View("NotFound");
+                    Storage.Instance.listSportman.RemoveAll(c => c.sportsmanId == id);
+                        return RedirectToAction("Index");
+
+                }else {
                     return RedirectToAction("Index");
-                }
-                else{
-                    return View(Sportsman);
                 }
             }catch{
                 return View(Sportsman);

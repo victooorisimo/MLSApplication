@@ -86,20 +86,25 @@ namespace CustomGenerics.Structures {
             (deleteNode.previousNode).nextNode = deleteNode.nextNode;
             }
 
-        public void getObject(){
-            Get();
+        public T getObject(){
+            return Get();
         }
 
         //Get objetct of list
-        protected override T Get(){
+        protected override T Get() {
             Node<T> currentLink = firstNode;
             currentLink = firstNode;
             int iterations = getSizeList();
-            for (int i = 0; i < iterations; i++){
-                return currentLink.value;
-                currentLink = currentLink.nextNode;
+            for (int i = 0; i < iterations; i++) {
+                if (i == 0){
+                    return currentLink.value;
+                }else {
+                    currentLink = currentLink.nextNode;
+                    return currentLink.value;
+                }
             }
             return currentLink.value;
+            
         }
 
         //Inumerable Get enumerator
