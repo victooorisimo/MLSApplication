@@ -26,64 +26,111 @@ namespace MLSApplication.Controllers
         [HttpPost]
         public ActionResult SelectionPage(Sportsman sportsman, string C_List, string DoublyList){
             try {
+                var sportsmanS = Storage.Instance.listSportman;
                 if (!string.IsNullOrEmpty(C_List)){
                     Storage.Instance.selectionList = true;
                     return RedirectToAction("Index");
                 }
                 else if (!string.IsNullOrEmpty(DoublyList)){
-                    Storage.Instance.selectionList = false;
                     return RedirectToAction("Index");
-                }else{
-                    return View(sportsman);
+                }
+                else{
+                    return RedirectToAction("Index");
                 }
             }catch (Exception){
                 return View();
             }
         }
+       
 
         // GET: Sportsman
-        public ViewResult Index(string searchString, string sortOrder){
+        public ViewResult Index(Sportsman model, string search, string sortOrder,string buttonSearch)
+        {
 
-            ViewBag.nameSortParam = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            ViewBag.lastNameSortParam = sortOrder == "Lastname" ? "lastname_desc" : "Lastname";
-            var sportsman = Storage.Instance.listSportman;
-            var sportsmanDoubly = Storage.Instance.doublylistSportman;
+            //Searching Method
+            try
+            {
+                var sportsman = Storage.Instance.listSportman;
+                var sportsmanS = from s in Storage.Instance.listSportman
+                                 select s;
+               
 
-            switch (sortOrder) {
-                case "name_desc":
-                    if (Storage.Instance.selectionList){
-                        sportsman = Storage.Instance.listSportman.OrderByDescending(X => X.name).ToList();
-                    }else{
-                        //Doublylinked list
-                    }
-                break;
-                case "Lastname":
-                    if (Storage.Instance.selectionList) {
-                        sportsman = Storage.Instance.listSportman.OrderBy(X => X.lastname).ToList();
-                    }else {
-                        //Doublylinked list
-                    }
-                break;
-                case "lastname_desc":
-                    if (Storage.Instance.selectionList) {
-                        sportsman = Storage.Instance.listSportman.OrderByDescending(X => X.lastname).ToList();
-                    } else {
-                        //Doublylinked list
-                    }
-                break;
-                default:
-                    if (Storage.Instance.selectionList) {
-                        sportsman = Storage.Instance.listSportman.OrderBy(X => X.name).ToList();
-                    }else {
-                        //Doublylinked list
-                    }
-                break;
+                if (!string.IsNullOrEmpty(buttonSearch))
+                {
+                    sportsmanS = sportsmanS.Where(s => s.name == search);
+                    sportsmanS = sportsmanS.Where(s => s.lastname == search);
+                    sportsmanS = sportsmanS.Where(s => s.position == search);
+                    sportsmanS = sportsmanS.Where(s => s.salary == int.Parse(search));
+                }
+                else
+                {
+                    return View(sportsman.ToList());
+                }
+                return View();
+    
+
+                //ViewBag.nameSortParam = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+                //ViewBag.lastNameSortParam = sortOrder == "Lastname" ? "lastname_desc" : "Lastname";
+                //var sportsman = Storage.Instance.listSportman;
+                //var sportsmanDoubly = Storage.Instance.doublylistSportman;
+
+                //switch (sortOrder)
+                //{
+                //    case "name_desc":
+                //        if (Storage.Instance.selectionList)
+                //        {
+                //            sportsman = Storage.Instance.listSportman.OrderByDescending(X => X.name).ToList();
+                //        }
+                //        else
+                //        {
+                //            //Doublylinked list
+                //        }
+                //        break;
+                //    case "Lastname":
+                //        if (Storage.Instance.selectionList)
+                //        {
+                //            sportsman = Storage.Instance.listSportman.OrderBy(X => X.lastname).ToList();
+                //        }
+                //        else
+                //        {
+                //            //Doublylinked list
+                //        }
+                //        break;
+                //    case "lastname_desc":
+                //        if (Storage.Instance.selectionList)
+                //        {
+                //            sportsman = Storage.Instance.listSportman.OrderByDescending(X => X.lastname).ToList();
+                //        }
+                //        else
+                //        {
+                //            //Doublylinked list
+                //        }
+                //        break;
+                //    default:
+                //        if (Storage.Instance.selectionList)
+                //        {
+                //            sportsman = Storage.Instance.listSportman.OrderBy(X => X.name).ToList();
+                //        }
+                //        else
+                //        {
+                //            //Doublylinked list
+                //        }
+                //        break;
+                //}
+                //if (Storage.Instance.selectionList)
+                //{
+                //    return View(sportsman.ToList());
+                //}
+                //else
+                //{
+                //    return View(sportsmanDoubly.ToList());
+                //}
             }
-            if (Storage.Instance.selectionList){
-                return View(sportsman.ToList());
-            }else {
-                return View(sportsmanDoubly.ToList());
+            catch (Exception)
+            {
+                return View();
             }
+
         }
 
         // GET: Sportsman/Details/5
