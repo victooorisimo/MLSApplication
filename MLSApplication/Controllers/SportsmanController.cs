@@ -11,20 +11,23 @@ using MLSApplication.Services;
 namespace MLSApplication.Controllers
 {
     /*
-     * @author: Aylinne Recinos
+     * @author: Aylinne Recinos and Victor Hernández
      * @version: 1.0.1
      * @description: controller for the C# list and Doubly Linked List. 
      */
 
     public class SportsmanController : Controller {
+        //Class atributes
         Stopwatch watch = new Stopwatch();
         OperationLog newOperation;
         StreamReader streamReader;
 
+        //Method for selection page
         public ActionResult SelectionPage() {
             return View();
         }
 
+        //Method for selection page
         [HttpPost]
         public ActionResult SelectionPage(Sportsman sportsman, string C_List, string DoublyList){
             try {
@@ -101,7 +104,6 @@ namespace MLSApplication.Controllers
         // POST: Sportsman/Create
         [HttpPost]
         public ActionResult Create(FormCollection collection) {
-            
             try {
                 var Sportman = new Sportsman {
                     name = collection["name"],
@@ -127,8 +129,13 @@ namespace MLSApplication.Controllers
         // GET: Sportsman/Edit/5
         public ActionResult Edit(int id){
             try {
-                var sportman = Storage.Instance.listSportman.Where(c => c.sportsmanId == id).FirstOrDefault();
-                return View(sportman);
+                if (Storage.Instance.selectionList){
+                    var sportman = Storage.Instance.listSportman.Where(c => c.sportsmanId == id).FirstOrDefault();
+                    return View(sportman);
+                }else{
+                    var sportsman = returnObject(id);
+                    return View(sportsman);
+                }
             }catch {
                 return View();
             }
@@ -145,12 +152,20 @@ namespace MLSApplication.Controllers
                     position = collection["position"],
                     futbolTeam = collection["futbolTeam"],
                 };
-
-                var sportman = Storage.Instance.listSportman.Where(c => c.sportsmanId == id).FirstOrDefault();
-                var index = Storage.Instance.listSportman.IndexOf(sportman);
-                Storage.Instance.listSportman[index] = Sportman;
+                if (Storage.Instance.selectionList)
+                {
+                    var sportman = Storage.Instance.listSportman.Where(c => c.sportsmanId == id).FirstOrDefault();
+                    var index = Storage.Instance.listSportman.IndexOf(sportman);
+                    Storage.Instance.listSportman[index] = Sportman;
                     return RedirectToAction("Index");
-                
+                }else{
+                    var sportsman = returnObject(id);
+                    Storage.Instance.doublylistSportman.popInList(sportsman);
+                    if (Sportman.saveSportman(Storage.Instance.selectionList)){
+                        return RedirectToAction("Index");
+                    }
+                    return RedirectToAction("Index");
+                }
             }catch {
                     return RedirectToAction("Index");
             }
@@ -171,13 +186,13 @@ namespace MLSApplication.Controllers
                     var sportsman = returnObject(id);
                     return View(sportsman);
                 }
-                
-                 
+
             }catch {
                 return View(sportman);
             }
         }
 
+        //Method for return object by Id
         public Sportsman returnObject(int id){
             var sportsman = new Sportsman();
             DoublyLinkedList<Sportsman> sportmansCopy = Storage.Instance.doublylistSportman;
@@ -208,6 +223,7 @@ namespace MLSApplication.Controllers
             }
         }
 
+        //Add operation to log document
         public void addOperation(string title, string description, string time) {
             StreamWriter streamWriter = new StreamWriter(AppDomain.CurrentDomain.BaseDirectory + "/Logs/Log-"
             + DateTime.Now.Day+".txt");
@@ -215,8 +231,8 @@ namespace MLSApplication.Controllers
             streamWriter.WriteLine(newOperation.PrintOperation());
             streamWriter.Close();
         }
-
-
+        
+        //Method to load document .csv
         [HttpPost]
         public ActionResult LoadDocument(HttpPostedFileBase file) {
             try {

@@ -6,16 +6,12 @@
 
 <h2>Index</h2>
 
-<button class="btn-default"> @Html.ActionLink("Create new", "Create")</button>
+<hr />
 
-@using (Html.BeginForm())
-{
-    <p>
-        Find by name: @Html.TextBox("SearchString")
-        <input type="submit" value="Search" />
-    </p>
 
-}
+<button type="button" onclick="location.href='@Url.Action("Create", "Sportsman")'" class="btn btn-default btn-sm">Create</button>
+<br />
+<br />
 
 <table class="table">
     <tr>
@@ -26,17 +22,18 @@
             @Html.ActionLink("Last name", "Index", new { sortOrder = ViewBag.LastNameSortParam })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.salary)
+            Salary
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.position)
+            Position
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.futbolTeam)
+            Team
         </th>
-        <th></th>
+        <th>
+            Actions
+        </th>
     </tr>
-
     @foreach (var item in Model)
     {
         <tr>
@@ -66,8 +63,15 @@
 <br />
 @using (Html.BeginForm("LoadDocument", "Sportsman", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    <p class="text-info">Cargar archivo</p>
-    <input type="file" name="file" accept=".csv"/>
-    <input type="submit" value="Load" class="btn-default" />
+    <hr />
+    <h4 class="text-info">Cargar archivo</h4>
+    <div class="agroup-class">
+        <input type="file" name="file" accept=".csv" />
+    </div>
+    <div class="agroup-class">
+        <input type="submit" value="Load file" class="btn btn-default btn-sm" />
+    </div>
+
+
 }
 
