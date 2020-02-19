@@ -8,28 +8,12 @@
 
 <button class="btn-default"> @Html.ActionLink("Create new", "Create")</button>
 
-@*@using (Html.BeginForm("Index", "Sportsman", FormMethod.Post))
-    {
-
-        <b>Search Type: </b>
-        <br />
-        <span> | Name: </span> @Html.RadioButton("searchType", "name", false)
-        <span> | Lastname: </span> @Html.RadioButton("searchType", "lastnm", false)
-        <span> | Position: </span> @Html.RadioButton("searchType", "pos", false)
-        <span> | Salary: </span> @Html.RadioButton("searchType", "sal", false)
-        <br />
-        <hr />
-
-        <br />
-    }*@
-
-@using (Html.BeginForm("Index", "Sporstman", FormMethod.Post))
+@using (Html.BeginForm())
 {
-    <br />
-    <input type="text" name="Search" value="search" class="text-primary"/>
-    <br />
-    <input type="submit" name="Name" value="buttonSearch" class="btn btn-default" />
-    <br />
+        <p>
+            Find by name: @Html.TextBox("SearchString")
+            <input type="submit" value="Search" />
+        </p>
 }
 
 <table class="table">

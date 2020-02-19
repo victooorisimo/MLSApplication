@@ -41,90 +41,92 @@ namespace MLSApplication.Controllers
                 return View();
             }
         }
+
+        //public ActionResult Search(string search)
+        //{
+        //    var sportsman = Storage.Instance.listSportman;
+        //    var sportsmanS = from s in Storage.Instance.listSportman
+        //                     select s;
+
+        //        sportsmanS = Storage.Instance.listSportman.Where(s => s.name == search);
+        //        //sportsmanS = sportsmanS.Where(s => s.lastname == search);
+        //        //sportsmanS = sportsmanS.Where(s => s.position == search);
+        //        //sportsmanS = sportsmanS.Where(s => s.salary == int.Parse(search));
+            
+          
+        //    return View(sportsmanS.ToList());
+        //}
        
 
         // GET: Sportsman
-        public ViewResult Index(Sportsman model, string search, string sortOrder,string buttonSearch)
+        public ViewResult Index(Sportsman model, string sortOrder, string searchString)
         {
-
-            //Searching Method
             try
             {
-                var sportsman = Storage.Instance.listSportman;
-                var sportsmanS = from s in Storage.Instance.listSportman
-                                 select s;
-               
 
-                if (!string.IsNullOrEmpty(buttonSearch))
+                ViewBag.nameSortParam = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+                ViewBag.lastNameSortParam = sortOrder == "Lastname" ? "lastname_desc" : "Lastname";
+                var sportsman = Storage.Instance.listSportman;
+                var sportsmanDoubly = Storage.Instance.doublylistSportman;
+                var find = from s in Storage.Instance.listSportman
+                               select s;
+                if (!String.IsNullOrEmpty(searchString))
                 {
-                    sportsmanS = sportsmanS.Where(s => s.name == search);
-                    sportsmanS = sportsmanS.Where(s => s.lastname == search);
-                    sportsmanS = sportsmanS.Where(s => s.position == search);
-                    sportsmanS = sportsmanS.Where(s => s.salary == int.Parse(search));
+                    find = find.Where(s => s.name.Contains(searchString)
+                                           || s.lastname.Contains(searchString));
+                }
+
+                switch (sortOrder)
+                {
+                    case "name_desc":
+                        if (Storage.Instance.selectionList)
+                        {
+                            sportsman = Storage.Instance.listSportman.OrderByDescending(X => X.name).ToList();
+                        }
+                        else
+                        {
+                            //Doublylinked list
+                        }
+                        break;
+                    case "Lastname":
+                        if (Storage.Instance.selectionList)
+                        {
+                            sportsman = Storage.Instance.listSportman.OrderBy(X => X.lastname).ToList();
+                        }
+                        else
+                        {
+                            //Doublylinked list
+                        }
+                        break;
+                    case "lastname_desc":
+                        if (Storage.Instance.selectionList)
+                        {
+                            sportsman = Storage.Instance.listSportman.OrderByDescending(X => X.lastname).ToList();
+                        }
+                        else
+                        {
+                            //Doublylinked list
+                        }
+                        break;
+                    default:
+                        if (Storage.Instance.selectionList)
+                        {
+                            sportsman = Storage.Instance.listSportman.OrderBy(X => X.name).ToList();
+                        }
+                        else
+                        {
+                            //Doublylinked list
+                        }
+                        break;
+                }
+                if (Storage.Instance.selectionList)
+                {
+                    return View(find.ToList());
                 }
                 else
                 {
-                    return View(sportsman.ToList());
+                    return View(sportsmanDoubly.ToList());
                 }
-                return View();
-    
-
-                //ViewBag.nameSortParam = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-                //ViewBag.lastNameSortParam = sortOrder == "Lastname" ? "lastname_desc" : "Lastname";
-                //var sportsman = Storage.Instance.listSportman;
-                //var sportsmanDoubly = Storage.Instance.doublylistSportman;
-
-                //switch (sortOrder)
-                //{
-                //    case "name_desc":
-                //        if (Storage.Instance.selectionList)
-                //        {
-                //            sportsman = Storage.Instance.listSportman.OrderByDescending(X => X.name).ToList();
-                //        }
-                //        else
-                //        {
-                //            //Doublylinked list
-                //        }
-                //        break;
-                //    case "Lastname":
-                //        if (Storage.Instance.selectionList)
-                //        {
-                //            sportsman = Storage.Instance.listSportman.OrderBy(X => X.lastname).ToList();
-                //        }
-                //        else
-                //        {
-                //            //Doublylinked list
-                //        }
-                //        break;
-                //    case "lastname_desc":
-                //        if (Storage.Instance.selectionList)
-                //        {
-                //            sportsman = Storage.Instance.listSportman.OrderByDescending(X => X.lastname).ToList();
-                //        }
-                //        else
-                //        {
-                //            //Doublylinked list
-                //        }
-                //        break;
-                //    default:
-                //        if (Storage.Instance.selectionList)
-                //        {
-                //            sportsman = Storage.Instance.listSportman.OrderBy(X => X.name).ToList();
-                //        }
-                //        else
-                //        {
-                //            //Doublylinked list
-                //        }
-                //        break;
-                //}
-                //if (Storage.Instance.selectionList)
-                //{
-                //    return View(sportsman.ToList());
-                //}
-                //else
-                //{
-                //    return View(sportsmanDoubly.ToList());
-                //}
             }
             catch (Exception)
             {
