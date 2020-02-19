@@ -3,13 +3,16 @@
 @{
     ViewBag.Title = "SportsMan";
 }
-
-<h2>Index</h2>
+<p></p>
+<h2>
+    Stored records
+    <small class="text-muted">(Sportsmans)</small>    
+</h2>
 
 <hr />
 
 
-<button type="button" onclick="location.href='@Url.Action("Create", "Sportsman")'" class="btn btn-default btn-sm">Create</button>
+<button type="button" onclick="location.href='@Url.Action("Create", "Sportsman")'" class="btn btn-primary">Create new</button>
 <br />
 <br />
 
@@ -64,12 +67,12 @@
 @using (Html.BeginForm("LoadDocument", "Sportsman", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <hr />
-    <h4 class="text-info">Cargar archivo</h4>
+    <h4 class="text-info">Load records from file</h4>
     <div class="agroup-class">
         <input type="file" name="file" accept=".csv" />
     </div>
     <div class="agroup-class">
-        <input type="submit" value="Load file" class="btn btn-default btn-sm" />
+        <input type="submit" value="Load file" class="btn btn-default"/>
     </div>
 
 
