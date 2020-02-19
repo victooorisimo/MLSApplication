@@ -3,16 +3,18 @@
 @{
     ViewBag.Title = "Delete";
 }
-
-<h2>Delete</h2>
-
-<h3>Are you sure you want to delete this?</h3>
+<br />
+<h2>
+    Delete
+    <small class="text-muted">portsman</small>
+</h2>
+<hr />
+<h2><small class="text-muted">Are you sure you want to delete this?</small></h2>
 <div>
-    <h4>Sportsman</h4>
-    <hr />
+    <br />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.name)
+            Name
         </dt>
 
         <dd>
@@ -20,7 +22,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.lastname)
+            Lastname
         </dt>
 
         <dd>
@@ -28,7 +30,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.salary)
+            Salary
         </dt>
 
         <dd>
@@ -36,7 +38,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.position)
+            Position
         </dt>
 
         <dd>
@@ -44,22 +46,22 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.futbolTeam)
+            Futbol Team
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.futbolTeam)
         </dd>
 
-
     </dl>
+    <br />
 
-    @using (Html.BeginForm()) {
+    @using (Html.BeginForm())
+    {
         @Html.AntiForgeryToken()
-
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+            <input type="submit" value="Delete" class="btn btn-danger" />
+            <button type="button" onclick="location.href='@Url.Action("Index", "Sportsman")'" class="btn btn-primary">Back to list</button>
         </div>
     }
 </div>
