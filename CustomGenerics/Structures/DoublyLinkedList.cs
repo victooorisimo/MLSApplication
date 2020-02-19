@@ -70,6 +70,7 @@ namespace CustomGenerics.Structures {
                 findNode = findNode.nextNode;
             }
             return position;
+            
         }
 
         //Pop in list
@@ -82,10 +83,16 @@ namespace CustomGenerics.Structures {
             Node<T> deleteNode = new Node<T>();
             deleteNode = firstNode;
             for (int i = 0; i < value; i++){
-                deleteNode = deleteNode.nextNode;
+                 deleteNode = deleteNode.nextNode;
             }
-            (deleteNode.nextNode).previousNode = deleteNode.previousNode;
-            (deleteNode.previousNode).nextNode = deleteNode.nextNode;
+            if (value != 0){
+                (deleteNode.nextNode).previousNode = deleteNode.previousNode;
+                (deleteNode.previousNode).nextNode = deleteNode.nextNode;
+                iterations = 0;
+            }else{
+                firstNode = null;
+            }
+            
             }
 
         public T getObject(){
@@ -100,7 +107,8 @@ namespace CustomGenerics.Structures {
         }
 
         public void RemoveNode(){
-            if (iterations < getSizeList()){
+            int cant = getSizeList();
+            if (iterations < cant){
                 firstNode = firstNode.nextNode;
                 iterations++;
             }else {

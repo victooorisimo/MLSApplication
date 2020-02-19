@@ -167,12 +167,7 @@ namespace MLSApplication.Controllers
                         return View();
                     }
                 }else{
-                    var sportsman = new Sportsman();
-                    DoublyLinkedList<Sportsman> sportmansCopy = Storage.Instance.doublylistSportman;
-                    while (id != sportsman.sportsmanId){
-                        sportsman = sportmansCopy.getObject();
-                    }
-                    Storage.Instance.doublylistSportman.popInList(sportsman);
+                    var sportsman = returnObject(id);
                     return View(sportsman);
                 }
                 
@@ -180,6 +175,15 @@ namespace MLSApplication.Controllers
             }catch {
                 return View(sportman);
             }
+        }
+
+        public Sportsman returnObject(int id){
+            var sportsman = new Sportsman();
+            DoublyLinkedList<Sportsman> sportmansCopy = Storage.Instance.doublylistSportman;
+            while (id != sportsman.sportsmanId) {
+                sportsman = sportmansCopy.getObject();
+            }
+            return sportsman;
         }
 
         // POST: Sportsman/Delete/5
@@ -194,6 +198,8 @@ namespace MLSApplication.Controllers
                     Storage.Instance.listSportman.RemoveAll(c => c.sportsmanId == id);
                     return RedirectToAction("Index");
                 }else {
+                    sportsman = returnObject(id);
+                    Storage.Instance.doublylistSportman.popInList(sportsman);
                     return RedirectToAction("Index");
                 }
             }catch{

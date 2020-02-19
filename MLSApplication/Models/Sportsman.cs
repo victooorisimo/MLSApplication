@@ -19,7 +19,6 @@ namespace MLSApplication.Models {
         public int sportsmanId { get; set; }
         public String name { get; set; }
         public String lastname { get; set; }
-        public String nationality { get; set; }
         public double salary { get; set; }
         public String position { get; set; }
         public String futbolTeam { get; set; }
