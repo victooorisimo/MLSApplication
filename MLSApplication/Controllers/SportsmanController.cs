@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using CustomGenerics.Structures;
 using MLSApplication.Models;
@@ -18,6 +19,7 @@ namespace MLSApplication.Controllers
     public class SportsmanController : Controller {
         Stopwatch watch = new Stopwatch();
         OperationLog newOperation;
+        StreamReader streamReader;
 
         public ActionResult SelectionPage() {
             return View();
@@ -136,7 +138,6 @@ namespace MLSApplication.Controllers
         [HttpPost]
         public ActionResult Edit(int id, FormCollection collection){
             try{
-                //Storage.Instance.listSportman.RemoveAll(c => c.sportsmanId == id);
                 var Sportman = new Sportsman {
                     name = collection["name"],
                     lastname = collection["lastname"],
@@ -213,6 +214,73 @@ namespace MLSApplication.Controllers
             newOperation = new OperationLog(title, description, (time + " ms"));
             streamWriter.WriteLine(newOperation.PrintOperation());
             streamWriter.Close();
+        }
+
+
+        [HttpPost]
+        public ActionResult LoadDocument(HttpPostedFileBase file) {
+            try {
+                Sportsman sportsman = new Sportsman();
+                streamReader = new StreamReader(AppDomain.CurrentDomain.BaseDirectory+ "/TestDocuments/" +file.FileName);
+                int iteration = 0;
+                String data;
+                while (streamReader.Peek() >= 0) {
+                    String lineReader = streamReader.ReadLine();
+                    data = "";
+                    for (int i = 0; i < lineReader.Length; i++){
+                        if (lineReader.Substring(i, 1) != ";"){
+                            data = data + lineReader.Substring(i,1);
+                        } else {
+                            if (iteration == 0){
+                                if(data != "name"){
+                                    sportsman.name = data;
+                                }
+                                iteration++;
+                                data = "";
+                            }else if (iteration == 1){
+                                if (data != "lastname"){
+                                    sportsman.lastname = data;
+                                }
+                                iteration++;
+                                data = "";
+                            }else if (iteration == 2){
+                                if (data != "salary"){
+                                    sportsman.salary = Convert.ToDouble(data);
+                                }
+                                iteration++;
+                                data = "";
+                            }else if (iteration == 3){
+                                if (data != "position"){
+                                    sportsman.position = data;
+                                }
+                                iteration++;
+                                data = "";
+                            }
+                        }
+                    }
+                    if (data != "futbolTeam"){
+                        sportsman.futbolTeam = data;
+                    }
+                    data = "";
+                    if (sportsman.name != null) {
+                        if (sportsman.saveSportman(Storage.Instance.selectionList)){
+                            //return RedirectToAction("Index");
+                        }else{
+                            return View(sportsman);
+                        }
+                            
+                    }
+                    
+                    sportsman = new Sportsman();
+                    iteration = 0;
+                }
+                streamReader.Close();
+                return RedirectToAction("Index");
+            }
+            catch (Exception e){
+                e.ToString();
+                return RedirectToAction("Index");
+            }
         }
     }
 }

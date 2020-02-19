@@ -81,19 +81,24 @@ namespace CustomGenerics.Structures {
         //Delete object in list
         protected override void Delete(int value){
             Node<T> deleteNode = new Node<T>();
-            deleteNode = firstNode;
-            for (int i = 0; i < value; i++){
-                 deleteNode = deleteNode.nextNode;
-            }
-            if (value != 0){
+            if (value == 0 && this.getSizeList() == 1) {
+                firstNode = null;
+            } else if (value == 0 && this.getSizeList() != 1) {
+                firstNode = firstNode.nextNode;
+                lastNode.nextNode = firstNode;
+                firstNode.previousNode = lastNode;
+                lastNode.nextNode = firstNode;
+
+            } else {
+                deleteNode = firstNode;
+                for (int i = 0; i < value; i++) {
+                    deleteNode = deleteNode.nextNode;
+                }
                 (deleteNode.nextNode).previousNode = deleteNode.previousNode;
                 (deleteNode.previousNode).nextNode = deleteNode.nextNode;
                 iterations = 0;
-            }else{
-                firstNode = null;
             }
-            
-            }
+        }
 
         public T getObject(){
             var value =  Get();

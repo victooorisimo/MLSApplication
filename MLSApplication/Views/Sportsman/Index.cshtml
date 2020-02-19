@@ -8,7 +8,8 @@
 
 <button class="btn-default"> @Html.ActionLink("Create new", "Create")</button>
 
-@using (Html.BeginForm()) {
+@using (Html.BeginForm())
+{
     <p>
         Find by name: @Html.TextBox("SearchString")
         <input type="submit" value="Search" />
@@ -62,3 +63,11 @@
     }
 
 </table>
+<br />
+@using (Html.BeginForm("LoadDocument", "Sportsman", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <p class="text-info">Cargar archivo</p>
+    <input type="file" name="file" accept=".csv"/>
+    <input type="submit" value="Load" class="btn-default" />
+}
+
