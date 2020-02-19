@@ -73,7 +73,8 @@ namespace MLSApplication.Controllers
                 if (!String.IsNullOrEmpty(searchString))
                 {
                     find = find.Where(s => s.name.Contains(searchString)
-                                           || s.lastname.Contains(searchString));
+                                           || s.lastname.Contains(searchString)
+                                           || s.salary.ToString().Contains(searchString) || s.position.Contains(searchString));
                 }
 
                 switch (sortOrder)
