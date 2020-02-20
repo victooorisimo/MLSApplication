@@ -142,15 +142,20 @@ namespace MLSApplication.Controllers
                     position = collection["position"],
                     futbolTeam = collection["futbolTeam"],
                 };
+                
                 if (Storage.Instance.selectionList)
                 {
                     var sportman = Storage.Instance.listSportman.Where(c => c.sportsmanId == id).FirstOrDefault();
-                    var index = Storage.Instance.listSportman.IndexOf(sportman);
-                    Storage.Instance.listSportman[index] = Sportman;
+                    watch.Start();
+                    Storage.Instance.listSportman.Find(sportman).Value = Sportman;
+                    watch.Stop();
+                    addOperation("Edit an object", "Edit an object in the LinkedList", watch.Elapsed.TotalMilliseconds.ToString());
                     return RedirectToAction("Index");
-                }else{
-                    var sportsman = returnObject(id);
-                    Storage.Instance.doublylistSportman.popInList(sportsman);
+                }
+                else
+                {
+                    var sporstman = returnObject(id);
+                    Storage.Instance.doublylistSportman.popInList(sporstman);
                     if (Sportman.saveSportman(Storage.Instance.selectionList)){
                         return RedirectToAction("Index");
                     }
