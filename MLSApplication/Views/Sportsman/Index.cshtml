@@ -1,0 +1,90 @@
+﻿@model IEnumerable<MLSApplication.Models.Sportsman>
+
+@{
+    ViewBag.Title = "SportsMan";
+}
+<p></p>
+<h2>
+    Stored records
+    <small class="text-muted">(Sportsmans)</small>
+</h2>
+
+<hr />
+    <div class="agroup-class">
+        <button type="button" onclick="location.href='@Url.Action("Create", "Sportsman")'" class="btn btn-primary">Create new</button>
+    </div>
+    <div class="agroup-class">
+        @using (Html.BeginForm())
+        {
+            <div class="agroup-class">
+            <p class="text-info">
+                Find: @Html.TextBox("SearchString")
+                <input type="submit" value="Search" class="btn btn-default"/>
+            </p>
+            </div>
+        }
+    </div>
+<br />
+<br />
+
+<table class="table">
+    <tr>
+        <th scope="col">
+            @Html.DisplayNameFor(model => model.name)
+        </th>
+        <th scope="col">
+            @Html.DisplayNameFor(model => model.lastname)
+        </th>
+        <th>
+            Salary
+        </th>
+        <th>
+            Position
+        </th>
+        <th>
+            Team
+        </th>
+        <th>
+            Actions
+        </th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.lastname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.salary)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.position)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.futbolTeam)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.sportsmanId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.sportsmanId })
+            </td>
+        </tr>
+    }
+
+</table>
+<br />
+@using (Html.BeginForm("LoadDocument", "Sportsman", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <hr />
+    <h4 class="text-info">Load records from file</h4>
+    <div class="agroup-class">
+        <input type="file" name="file" accept=".csv" />
+    </div>
+    <div class="agroup-class">
+        <input type="submit" value="Load file" class="btn btn-default" />
+    </div>
+}
+
+

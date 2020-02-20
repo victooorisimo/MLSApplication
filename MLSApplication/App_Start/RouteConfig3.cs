@@ -7,7 +7,7 @@ using System.Web.Routing;
 
 namespace MLSApplication
 {
-    public class RouteConfig
+    public class RouteConfig3
     {
         public static void RegisterRoutes(RouteCollection routes)
         {
@@ -16,8 +16,9 @@ namespace MLSApplication
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Sportsman", action = "SelectionPage", id = UrlParameter.Optional }
+                defaults: new { action = "Index", id = UrlParameter.Optional }
             );
         }
     }
 }
+

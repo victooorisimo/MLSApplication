@@ -3,6 +3,15 @@
     padding-bottom: 20px;
 }
 
+:root {
+    --green-color: #7ACC2D;
+    --white-color: white;
+    --black-color: #313337;
+    --space: 10px;
+    --normal: 12px;
+    --box: 0 0 1px #c1bcbc;
+}
+
 /* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
@@ -14,6 +23,25 @@
 */
 .dl-horizontal dt {
     white-space: normal;
+}
+
+.agroup-class {
+    border: 10px;
+    display: inline-block;
+    width: auto;
+    margin: 1px;
+    text-align: left;
+}
+.button-linked {
+    background-color: var(--green-color);
+    padding: var(--space);
+    width: 100%;
+    font-size: var(--normal);
+    font-family: 'Open Sans', sans-serif;
+    color: white;
+    border: 0;
+    cursor: pointer;
+    border-radius: 2px;
 }
 
 /* Set width on the form input elements since they're 100% wide by default */
