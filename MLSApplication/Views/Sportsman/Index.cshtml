@@ -9,7 +9,6 @@
     <small class="text-muted">(Sportsmans)</small>
 </h2>
 
-<<<<<<< HEAD
 <hr />
     <div class="agroup-class">
         <button type="button" onclick="location.href='@Url.Action("Create", "Sportsman")'" class="btn btn-primary">Create new</button>
@@ -27,19 +26,6 @@
     </div>
 <br />
 <br />
-=======
-<h2>Index</h2>
-
-<button class="btn-default"> @Html.ActionLink("Create new", "Create")</button>
-
-@using (Html.BeginForm())
-{
-    <p>
-        Find by name: @Html.TextBox("SearchString")
-        <input type="submit" value="Search" />
-    </p>
-}
->>>>>>> 1e2d05613c27b05207a363a5aae9074de1cb3e9a
 
 <table class="table">
     <tr>
@@ -88,7 +74,6 @@
     }
 
 </table>
-<<<<<<< HEAD
 <br />
 @using (Html.BeginForm("LoadDocument", "Sportsman", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
@@ -100,9 +85,6 @@
     <div class="agroup-class">
         <input type="submit" value="Load file" class="btn btn-default" />
     </div>
-
-
 }
-=======
->>>>>>> 1e2d05613c27b05207a363a5aae9074de1cb3e9a
+
 
