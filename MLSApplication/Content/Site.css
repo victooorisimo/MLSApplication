@@ -33,15 +33,7 @@
     text-align: left;
 }
 .button-linked {
-    background-color: var(--green-color);
-    padding: var(--space);
-    width: 100%;
-    font-size: var(--normal);
-    font-family: 'Open Sans', sans-serif;
-    color: white;
-    border: 0;
-    cursor: pointer;
-    border-radius: 2px;
+    background-position: center top;
 }
 
 /* Set width on the form input elements since they're 100% wide by default */
