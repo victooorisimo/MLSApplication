@@ -50,18 +50,29 @@ namespace MLSApplication.Controllers
         // GET: Sportsman
         public ViewResult Index(Sportsman model, string sortOrder, string searchString) {
             try{
-
-                var sportsmanDoubly = Storage.Instance.doublylistSportman;
+                var sportsmanDoubly = from r in Storage.Instance.doublylistSportman
+                                select r;
                 var find = from s in Storage.Instance.listSportman
                                select s;
+
                 watch.Start();
-                if (!String.IsNullOrEmpty(searchString)) {
-                    find = find.Where(s => s.name.Contains(searchString)
+                if (!String.IsNullOrEmpty(searchString)){
+                    if (Storage.Instance.selectionList){
+                        find = find.Where(s => s.name.Contains(searchString)
                                            || s.lastname.Contains(searchString)
-                                           || s.salary.ToString().Contains(searchString) || s.position.Contains(searchString));
-                    watch.Stop();
-                    addOperation("Find object", "Find object in the LinkedList.", watch.Elapsed.TotalMilliseconds.ToString());
+                                           || s.salary.ToString().Contains(searchString) || s.position.Contains(searchString) || s.futbolTeam.Contains(searchString));
+                        watch.Stop();
+                        addOperation("Find object", "Find object in the LinkedList.", watch.Elapsed.TotalMilliseconds.ToString());
+                    }else{
+                        sportsmanDoubly = sportsmanDoubly.Where(r => r.name.Contains(searchString)
+                                           || r.lastname.Contains(searchString)
+                                           || r.salary.ToString().Contains(searchString) || r.position.Contains(searchString) || r.futbolTeam.Contains(searchString));
+                        watch.Stop();
+                        addOperation("Find object", "Find object in the LinkedList.", watch.Elapsed.TotalMilliseconds.ToString());
+                    }
+ 
                 }
+
                 if (Storage.Instance.selectionList){
                     return View(find.ToList());
                 }else{

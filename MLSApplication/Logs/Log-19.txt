@@ -1,9 +1,1 @@
-Title: New player Description: A new player was added Time: 0,4942 ms
-Title: Delete an object Description: Delete an object in the LinkedList Time: 0,2942 ms
-Title: New player Description: A new player was added Time: 0,0023 ms
-Title: Edit an object Description: Edit an object in the LinkedList Time: 0,0094 ms
-Title: Delete an object Description: Delete an object in the LinkedList Time: 0,0126 ms
-Title: New player Description: A new player was added Time: 1,647 ms
-Title: New player Description: A new player was added Time: 0,0023 ms
-Title: Delete an object Description: Delete an object in the Doubly List Time: 1,2941 ms
-Title: Delete an object Description: Delete an object in the Doubly List Time: 0,0037 ms
+Title: New player Description: A new player was added Time: 0,332 ms
