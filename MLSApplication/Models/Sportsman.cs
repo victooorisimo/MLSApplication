@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using MLSApplication.Services;
 
+
 /*
  * @author: Victor Noe Hernández
  * @version: 1.0.0
@@ -32,7 +33,7 @@ namespace MLSApplication.Models {
                 this.sportsmanId = codeSportsman;
 
                 if (structureType){
-                    Storage.Instance.listSportman.Add(this);
+                    Storage.Instance.listSportman.AddLast(this);
                 }else {
                     Storage.Instance.doublylistSportman.pushInList(this);
                 }
@@ -53,6 +54,5 @@ namespace MLSApplication.Models {
             }
         }
 
-        
     }
 }
