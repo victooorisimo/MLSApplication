@@ -11,7 +11,7 @@ namespace MLSApplication.Controllers
 {
     /*
      * @author: Aylinne Recinos
-     * @version: 1.0.1
+     * @version: 2.0.0
      * @description: controller for the C# list and Doubly Linked List. 
      */
 
@@ -42,84 +42,25 @@ namespace MLSApplication.Controllers
             }
         }
 
-        //public ActionResult Search(string search)
-        //{
-        //    var sportsman = Storage.Instance.listSportman;
-        //    var sportsmanS = from s in Storage.Instance.listSportman
-        //                     select s;
-
-        //        sportsmanS = Storage.Instance.listSportman.Where(s => s.name == search);
-        //        //sportsmanS = sportsmanS.Where(s => s.lastname == search);
-        //        //sportsmanS = sportsmanS.Where(s => s.position == search);
-        //        //sportsmanS = sportsmanS.Where(s => s.salary == int.Parse(search));
-            
-          
-        //    return View(sportsmanS.ToList());
-        //}
-       
-
         // GET: Sportsman
         public ViewResult Index(Sportsman model, string sortOrder, string searchString)
         {
             try
             {
 
-                ViewBag.nameSortParam = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-                ViewBag.lastNameSortParam = sortOrder == "Lastname" ? "lastname_desc" : "Lastname";
-                var sportsman = Storage.Instance.listSportman;
                 var sportsmanDoubly = Storage.Instance.doublylistSportman;
                 var find = from s in Storage.Instance.listSportman
                                select s;
+                watch.Start();
                 if (!String.IsNullOrEmpty(searchString))
                 {
                     find = find.Where(s => s.name.Contains(searchString)
                                            || s.lastname.Contains(searchString)
                                            || s.salary.ToString().Contains(searchString) || s.position.Contains(searchString));
+                    watch.Stop();
+                    addOperation("Find object", "Find object in the LinkedList.", watch.Elapsed.TotalMilliseconds.ToString());
                 }
 
-                switch (sortOrder)
-                {
-                    case "name_desc":
-                        if (Storage.Instance.selectionList)
-                        {
-                            sportsman = Storage.Instance.listSportman.OrderByDescending(X => X.name).ToList();
-                        }
-                        else
-                        {
-                            //Doublylinked list
-                        }
-                        break;
-                    case "Lastname":
-                        if (Storage.Instance.selectionList)
-                        {
-                            sportsman = Storage.Instance.listSportman.OrderBy(X => X.lastname).ToList();
-                        }
-                        else
-                        {
-                            //Doublylinked list
-                        }
-                        break;
-                    case "lastname_desc":
-                        if (Storage.Instance.selectionList)
-                        {
-                            sportsman = Storage.Instance.listSportman.OrderByDescending(X => X.lastname).ToList();
-                        }
-                        else
-                        {
-                            //Doublylinked list
-                        }
-                        break;
-                    default:
-                        if (Storage.Instance.selectionList)
-                        {
-                            sportsman = Storage.Instance.listSportman.OrderBy(X => X.name).ToList();
-                        }
-                        else
-                        {
-                            //Doublylinked list
-                        }
-                        break;
-                }
                 if (Storage.Instance.selectionList)
                 {
                     return View(find.ToList());
@@ -186,7 +127,7 @@ namespace MLSApplication.Controllers
         [HttpPost]
         public ActionResult Edit(int id, FormCollection collection){
             try{
-                //Storage.Instance.listSportman.RemoveAll(c => c.sportsmanId == id);
+
                 var Sportman = new Sportsman {
                     name = collection["name"],
                     lastname = collection["lastname"],
@@ -196,9 +137,11 @@ namespace MLSApplication.Controllers
                 };
 
                 var sportman = Storage.Instance.listSportman.Where(c => c.sportsmanId == id).FirstOrDefault();
-                var index = Storage.Instance.listSportman.IndexOf(sportman);
-                Storage.Instance.listSportman[index] = Sportman;
-                    return RedirectToAction("Index");
+                watch.Start();
+                Storage.Instance.listSportman.Find(sportman).Value = Sportman;
+                watch.Stop();
+                addOperation("Edit an object", "Edit an object in the LinkedList", watch.Elapsed.TotalMilliseconds.ToString());
+                return RedirectToAction("Index");
                 
             }catch {
                     return RedirectToAction("Index");
@@ -245,11 +188,17 @@ namespace MLSApplication.Controllers
                     if (sportsman == null) {
                         return View("NotFound");
                     }
-                    Storage.Instance.listSportman.RemoveAll(c => c.sportsmanId == id);
+                    watch.Start();
+                    Storage.Instance.listSportman.Remove(Storage.Instance.listSportman.Where(c => c.sportsmanId == id).FirstOrDefault());
+                    watch.Stop();
+                    addOperation("Delete an object", "Delete an object in the LinkedList", watch.Elapsed.TotalMilliseconds.ToString());
                     return RedirectToAction("Index");
                 }else {
                     sportsman = returnObject(id);
+                    watch.Start();
                     Storage.Instance.doublylistSportman.popInList(sportsman);
+                    watch.Stop();
+                    addOperation("Delete an object", "Delete an object in the Doubly List", watch.Elapsed.TotalMilliseconds.ToString());
                     return RedirectToAction("Index");
                 }
             }catch{
@@ -259,7 +208,7 @@ namespace MLSApplication.Controllers
 
         public void addOperation(string title, string description, string time) {
             StreamWriter streamWriter = new StreamWriter(AppDomain.CurrentDomain.BaseDirectory + "/Logs/Log-"
-            + DateTime.Now.Day+".txt");
+            + DateTime.Now.Day+".txt", true);
             newOperation = new OperationLog(title, description, (time + " ms"));
             streamWriter.WriteLine(newOperation.PrintOperation());
             streamWriter.Close();

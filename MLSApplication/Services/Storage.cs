@@ -20,7 +20,7 @@ namespace MLSApplication.Services {
             }
         }
 
-        public List<Sportsman> listSportman = new List<Sportsman>();
+        public LinkedList<Sportsman> listSportman = new LinkedList<Sportsman>();
         public DoublyLinkedList<Sportsman> doublylistSportman = new DoublyLinkedList<Sportsman>();
         public bool selectionList;
     }
