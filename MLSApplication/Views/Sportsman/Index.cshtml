@@ -6,22 +6,26 @@
 <p></p>
 <h2>
     Stored records
-    <small class="text-muted">(Sportsmans)</small>    
+    <small class="text-muted">(Sportsmans)</small>
 </h2>
 
 <hr />
-
-<button type="button" onclick="location.href='@Url.Action("Create", "Sportsman")'" class="btn btn-primary">Create new</button>
+    <div class="agroup-class">
+        <button type="button" onclick="location.href='@Url.Action("Create", "Sportsman")'" class="btn btn-primary">Create new</button>
+    </div>
+    <div class="agroup-class">
+        @using (Html.BeginForm())
+        {
+            <div class="agroup-class">
+            <p class="text-info">
+                Find: @Html.TextBox("SearchString")
+                <input type="submit" value="Search" class="btn btn-default"/>
+            </p>
+            </div>
+        }
+    </div>
 <br />
 <br />
-@using (Html.BeginForm())
-{
-        <p>
-            Find by name: @Html.TextBox("SearchString")
-            <input type="submit" value="Search" />
-        </p>
-}
-
 
 <table class="table">
     <tr>
@@ -79,7 +83,7 @@
         <input type="file" name="file" accept=".csv" />
     </div>
     <div class="agroup-class">
-        <input type="submit" value="Load file" class="btn btn-default"/>
+        <input type="submit" value="Load file" class="btn btn-default" />
     </div>
 
 

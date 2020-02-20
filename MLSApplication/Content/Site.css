@@ -26,10 +26,10 @@
 }
 
 .agroup-class {
-    border: 1px;
+    border: 10px;
     display: inline-block;
     width: auto;
-    margin: auto;
+    margin: 1px;
     text-align: left;
 }
 .button-linked {
