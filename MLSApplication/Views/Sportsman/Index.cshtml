@@ -11,10 +11,17 @@
 
 <hr />
 
-
 <button type="button" onclick="location.href='@Url.Action("Create", "Sportsman")'" class="btn btn-primary">Create new</button>
 <br />
 <br />
+@using (Html.BeginForm())
+{
+        <p>
+            Find by name: @Html.TextBox("SearchString")
+            <input type="submit" value="Search" />
+        </p>
+}
+
 
 <table class="table">
     <tr>

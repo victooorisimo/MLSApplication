@@ -17,11 +17,13 @@ namespace MLSApplication.Models {
         public static int codeSportsman = 0;
 
         public int sportsmanId { get; set; }
+        
         public String name { get; set; }
         public String lastname { get; set; }
         public double salary { get; set; }
         public String position { get; set; }
         public String futbolTeam { get; set; }
+        public String search { get; set; }
 
         public bool saveSportman(bool structureType){
             try {
