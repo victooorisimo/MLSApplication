@@ -1,0 +1,3 @@
+Title: New player Description: A new player was added Time: 0,493 ms
+Title: Find object Description: Find object in the LinkedList. Time: 0,045 ms
+Title: Delete an object Description: Delete an object in the LinkedList Time: 0,1769 ms
